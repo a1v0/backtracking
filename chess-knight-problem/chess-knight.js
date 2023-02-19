@@ -1,5 +1,27 @@
+// PROBLEM
+// This code is essentially a brute-force solver and doesn't scale well
+// An 8x8 board is too big
+// To help improve the algo, look at this: https://en.wikipedia.org/wiki/Knight%27s_tour#Warnsdorff's_rule
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // create multidimensional array for board
-const sizeOfBoard = 8;
+const sizeOfBoard = 7;
 const chessboard = [];
 for (let i = 0; i < sizeOfBoard; ++i) {
     const boardRow = [];
@@ -11,7 +33,7 @@ for (let i = 0; i < sizeOfBoard; ++i) {
 
 // set starting coords
 const startingCoordinates = { x: 0, y: 0 };
-chessboard[startingCoordinates.y][startingCoordinates.x] = "0";
+chessboard[startingCoordinates.y][startingCoordinates.x] = 0;
 
 calculateMoves(startingCoordinates, 1);
 drawBoard(chessboard);
