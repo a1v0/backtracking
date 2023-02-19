@@ -11,16 +11,33 @@ for (let i = 0; i < sizeOfBoard; ++i) {
 
 // set starting coords
 const startingCoordinates = { x: 0, y: 0 };
+chessboard[startingCoordinates.y][startingCoordinates.x] = "0";
 
-calculateMoves(startingCoordinates);
+calculateMoves(startingCoordinates, 1);
 drawBoard(chessboard);
 
 // create recursive function
-function calculateMoves({ startingCoordinates: { x, y } }) {
+function calculateMoves({ x, y }, moveIndex) {
     // loop through possible coords (if none, return)
-    // if possible to go, set a value to that coordinate
-    // invoke function again
-    // unset value immediately after
+    const moves = findPossibleMoves({ x, y });
+    for (let { x, y } of moves) {
+        // set a value to that coordinate
+        chessboard[y][x] = moveIndex;
+        // invoke function again
+        const movesCalculation = calculateMoves({ x, y }, moveIndex + 1);
+
+        if (!movesCalculation) {
+            // unset value immediately after
+            chessboard[y][x] = "";
+        } else {
+            return "Complete";
+        }
+    }
+
+    for (let i = 0; i < sizeOfBoard; ++i) {
+        if (chessboard[i].includes("")) return;
+    }
+    return "Complete";
 }
 
 // create function to draw and fill in board
@@ -42,7 +59,7 @@ function drawBoard(chessboard) {
 }
 
 // create function to generate coordinates for checking
-function findPossibleMoves({ startingCoordinates: { x, y } }) {
+function findPossibleMoves({ x, y }) {
     const movesToCheck = [
         { x: x - 1, y: y - 2 }, // up left
         { x: x + 1, y: y - 2 }, // up right
